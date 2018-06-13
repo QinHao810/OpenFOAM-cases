@@ -1,0 +1,166 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+U
+{
+    internalField   uniform (0.01 0 0);
+
+    boundaryField
+    {
+        liquid_in
+        {
+            type            fixedValue;
+            value           uniform (0.01 0 0);
+        }
+
+        liquid_out
+        {
+            type            inletOutlet;
+            inletValue      uniform (0 0 0);
+        }
+        ".*"
+        {
+            type            fixedValue;
+            value           uniform (0 0 0);
+        }
+    }
+}
+
+T
+{
+    internalField   uniform 300;
+
+    boundaryField
+    {
+        liquid_in
+        {
+            type            fixedValue;
+            value           uniform 300;
+        }
+
+        liquid_out
+        {
+            type            inletOutlet;
+            inletValue      uniform 300;
+        }
+        wall_in-shadow
+        {
+            type            compressible::turbulentTemperatureCoupledBaffleMixed;
+            Tnbr            T;
+            kappaMethod     fluidThermo;
+            value           uniform 300;
+        }
+    }
+}
+
+epsilon
+{
+    internalField   uniform 0.01;
+
+    boundaryField
+    {
+        liquid_in
+        {
+            type            fixedValue;
+            value           uniform 0.01;
+        }
+
+        liquid_out
+        {
+            type            inletOutlet;
+            inletValue      uniform 0.01;
+        }
+        ".*"
+        {
+            type            epsilonWallFunction;
+            value           uniform 0.01;
+        }
+    }
+}
+
+k
+{
+    internalField   uniform 0.1;
+
+    boundaryField
+    {
+        liquid_in
+        {
+            type            inletOutlet;
+            inletValue      uniform 0.1;
+        }
+
+        liquid_out
+        {
+            type            zeroGradient;
+            value           uniform 0.1;
+        }
+
+        ".*"
+        {
+            type            kqRWallFunction;
+            value           uniform 0.1;
+        }
+    }
+}
+
+p_rgh
+{
+    internalField   uniform 0;
+
+    boundaryField
+    {
+        liquid_out
+        {
+            type            fixedValue;
+            value           uniform 0;
+        }
+
+        liquid_in
+        {
+            type            zeroGradient;
+        }
+        wall_in-shadow
+        {
+            type            zeroGradient;
+        }
+    }
+}
+
+p
+{
+    internalField   uniform 0;
+
+    boundaryField
+    {
+        liquid_out
+        {
+            type            fixedValue;
+            value           uniform 0;
+        }
+
+        liquid_in
+        {
+            type            zeroGradient;
+        }
+        wall_in-shadow
+        {
+            type            zeroGradient;
+        }
+    }
+}
+
+// ************************************************************************* //

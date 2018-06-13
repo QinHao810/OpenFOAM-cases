@@ -1,0 +1,7 @@
+wall_out solid 
+wall_in solid 
+wall_in-shadow liquid 
+solid_in solid 
+liquid_in liquid 
+liquid_out liquid 
+solid_out solid 
